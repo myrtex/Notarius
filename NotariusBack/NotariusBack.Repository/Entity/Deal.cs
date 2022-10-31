@@ -15,7 +15,7 @@ namespace NotariusBack.Repository.Entity
         public virtual Client Client { get; set; }
         public virtual Service Service { get; set; }
         public string Description { get; set; }
-        public int TransactionAmount { get; set; }
+        public int? TransactionAmount { get; set; }
         public int RealPrice { get; set; }
         public double RealCommission { get; set; }
     }

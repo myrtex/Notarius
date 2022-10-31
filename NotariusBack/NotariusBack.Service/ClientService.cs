@@ -1,4 +1,5 @@
-﻿using NotariusBack.Repository;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using NotariusBack.Repository;
 using NotariusBack.Repository.Entity;
 using NotariusBack.Repository.Entity.Enums;
 using NotariusBack.Service.ModelDto;
@@ -25,9 +26,9 @@ namespace NotariusBack.Service
             await repository.Add(client);
         }
 
-        public async Task Update(ClientDto clientDto)
+        public async Task Update(ClientDto clientDto, int id)
         {
-            Client client = new Client() { Adress = clientDto.Adress, Phone = clientDto.Phone};
+            Client client = new Client() { Id = id, Adress = clientDto.Adress, Phone = clientDto.Phone};
             await repository.Update(client);
         }
 

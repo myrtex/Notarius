@@ -29,5 +29,7 @@ namespace NotariusBack.Repository
         }
 
         public async Task<Client> Get(string name) => await NotariusDbContext.db.Clients.FirstOrDefaultAsync(t => t.Name == name);
+
+        public async Task<Client> Get(int id) => await NotariusDbContext.db.Clients.FirstOrDefaultAsync(t => t.Id == id);
     }
 }

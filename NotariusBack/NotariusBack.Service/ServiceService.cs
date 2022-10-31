@@ -24,21 +24,32 @@ namespace NotariusBack.Service
             await repository.Add(client);
         }
 
-        public async Task Update(ServiceDto serviceDto)
+        public async Task Update(ServiceDto serviceDto, int id)
         {
-            Repository.Entity.Service client = new Repository.Entity.Service() { Status = serviceDto.Status, Description = serviceDto.Description, Price = serviceDto.Price, Commission = serviceDto.Commission };
+            Repository.Entity.Service client = new Repository.Entity.Service() { Id = id, Status = true, Description = serviceDto.Description, Price = serviceDto.Price, Commission = serviceDto.Commission };
             await repository.Update(client);
         }
 
-        public async Task UpdatePrice(ServiceDto serviceDto)
+        public async Task UpdatePrice(ServiceDto serviceDto, int id)
         {
-            Repository.Entity.Service client = new Repository.Entity.Service() { Price = serviceDto.Price, Commission = serviceDto.Commission };
+            Repository.Entity.Service client = new Repository.Entity.Service() { Id = id, Status = true, Description = null, Price = serviceDto.Price, Commission = serviceDto.Commission };
+            await repository.Update(client);
+        }
+
+        public async Task Delete(int id)
+        {
+            Repository.Entity.Service client = new Repository.Entity.Service() { Id = id, Status = false, Description = null, Price = -1, Commission = -1 };
             await repository.Update(client);
         }
 
         public async Task<Repository.Entity.Service> Get(string name)
         {
             return await repository.Get(name);
+        }
+
+        public async Task<List<Repository.Entity.Service>> GetAll()
+        {
+            return await repository.GetAll();
         }
     }
 }

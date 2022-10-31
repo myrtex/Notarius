@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NotariusBack.Repository.Entity;
+using NotariusBack.Repository.Entity.Enums;
 using NotariusBack.Service;
 using System;
 using System.Collections.Generic;
@@ -17,21 +18,32 @@ namespace NotariusBack.Repository
             await NotariusDbContext.db.SaveChangesAsync();
         }
 
-        public async Task Update(Deal deal)
+        public async Task UpdateTransaction(int id, int transactionAmount)
         {
-            Deal oldDeal = await NotariusDbContext.db.Deals.FirstOrDefaultAsync(t => t.Id == deal.Id);
-            if (oldDeal != null)
+            Deal deal = NotariusDbContext.db.Deals.FirstOrDefault(t => t.Id == id);
+            if(deal != null)
             {
-                oldDeal.RealCommission = deal.RealCommission;
-                oldDeal.Client = deal.Client;
-                oldDeal.Date = deal.Date;
-                oldDeal.Description = deal.Description;
-                oldDeal.RealPrice = deal.RealPrice;
-                oldDeal.Service = deal.Service;
-                oldDeal.Status = deal.Status;
-                oldDeal.TransactionAmount = deal.TransactionAmount;
+                deal.TransactionAmount = transactionAmount;
+                await NotariusDbContext.db.SaveChangesAsync();
             }
-            await NotariusDbContext.db.SaveChangesAsync();
+            else
+            {
+                throw new ArgumentException("Такого id не существует");
+            }
+        }
+
+        public async Task ChangeStatus(int id, DealStatusEnum dealStatus)
+        {
+            Deal deal = NotariusDbContext.db.Deals.FirstOrDefault(t => t.Id == id);
+            if (deal != null)
+            {
+                deal.Status = dealStatus;
+                await NotariusDbContext.db.SaveChangesAsync();
+            }
+            else
+            {
+                throw new ArgumentException("Такого id не существует");
+            }
         }
 
         public async Task<Deal> Get(int id) => await NotariusDbContext.db.Deals.FirstOrDefaultAsync(t => t.Id == id);
